@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Job;
-use App\Models\Recipe;
+use App\Models\GameEntities\Job;
+use App\Models\GameEntities\Recipe;
 use Illuminate\Support\Facades\Cache;
 
 class JobController extends Controller

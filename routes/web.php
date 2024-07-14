@@ -8,8 +8,11 @@ use App\Http\Controllers\HuntingController;
 use App\Http\Controllers\LevesController;
 use App\Http\Controllers\ListsController;
 use App\Http\Controllers\LibraryController;
+use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+Route::get('/', fn () => Inertia::render('Welcome'))->name('home');
 
 Route::middleware([
     'auth:sanctum',
@@ -27,8 +30,6 @@ Route::middleware([
 
 Route::get('craft/list', [CraftController::class, 'fromActiveList'])->name('craft.active');
 Route::get('craft/list/{list}', [CraftController::class, 'fromList'])->name('craft.list');
-
-Route::get('/', fn () => Inertia::render('Welcome'))->name('home');
 
 Route::resource('library', LibraryController::class)->only('index');
 Route::resource('cart', CartController::class)->only('index', 'store');

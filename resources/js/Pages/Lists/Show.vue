@@ -126,7 +126,8 @@ const props = defineProps({
 
 const userIsOwner = usePage().props.auth.user?.id === props.list.user.id;
 
-const craftList = () => router.get(route('craft.list', props.list.sqid));
+const craftList = () => router.visit(route('craft.list', props.list.sqid));
+
 
 const copied = ref(false);
 

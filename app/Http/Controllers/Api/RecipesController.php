@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\RecipeResource as RecipeResource;
-use App\Models\Category;
-use App\Models\Item;
-use App\Models\Location;
-use App\Models\Notebook;
-use App\Models\Recipe;
+use App\Models\GameEntities\Category;
+use App\Models\GameEntities\Item;
+use App\Models\GameEntities\Location;
+use App\Models\GameEntities\Notebook;
+use App\Models\GameEntities\Recipe;
 
 class RecipesController extends Controller
 {
@@ -39,7 +39,7 @@ class RecipesController extends Controller
         $query->orderBy($sort, $order);
 
         $min = 1;
-        $max = config('ffxiv.maxLevel');
+        $max = config('game.maxLevel');
         $levelMin = min(max(request('level_min', $min), $min), $max);
         $levelMax = min(max(request('level_max', $max), $min), $max);
         $query->whereBetween('recipe_level', [$levelMin, $levelMax]);

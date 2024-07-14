@@ -16,8 +16,9 @@ function assetcdn($asset)
     $cdn = config('services.assets.cdn');
 
     // Check if we added cdn's to the config file
-    if( ! $cdn)
+    if( ! $cdn) {
         return asset( $asset );
+    }
 
-    return 'https://' . $cdn . '/' . $asset;
+    return '//' . $cdn . '/' . $asset;
 }

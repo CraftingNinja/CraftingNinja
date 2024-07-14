@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Job;
+use App\Models\GameEntities\Job;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -22,7 +22,7 @@ class HuntingController extends Controller
                 'ORD' => 'Order of the Twin Adder',
             ];
 
-            $huntingData = json_decode(file_get_contents(resource_path('data/huntingData.json')));
+            $huntingData = json_decode(file_get_contents(resource_path('aspir/ffxiv/huntingData.json')));
 
             return compact('jobs', 'companies', 'huntingData');
         });

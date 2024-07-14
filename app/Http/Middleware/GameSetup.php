@@ -17,7 +17,7 @@ class GameSetup
      */
     public function handle(Request $request, Closure $next): Response
     {
-        [$subdomain, $backup] = explode('.', $_SERVER["SERVER_NAME"]);
+        [$subdomain, $backup] = explode('.', $request->getHost());
 
         // Allow for dev domains, like qa.ffxiv.crafting.ninja
         if (app()->environment($subdomain)) {
@@ -26,7 +26,13 @@ class GameSetup
 
         $game = Cache::rememberForever($subdomain . '-game', fn () => Game::whereSlug($subdomain)->sole()->toArray());
 
-        config()->set('game', $game);
+        config([
+            'game' => [
+                ...$game,
+                ...config("games.$subdomain.attributes", [])
+            ],
+            'gameInternals' => config("games.$subdomain.internals", [])
+        ]);
 
         return $next($request);
     }

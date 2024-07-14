@@ -3,15 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Api\JobController;
-use App\Http\Resources\ItemResource as ItemResource;
-use App\Models\Item;
-use App\Models\Ninja\ListItems;
 use App\Models\Ninja\Lists;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Inertia\Response;
-use Laravel\Jetstream\Jetstream;
 
 class ListsController extends Controller
 {

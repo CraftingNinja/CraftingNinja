@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\GameEntities\Item;
+use App\Models\GameEntities\Job;
+
 class StatWeight
 {
 

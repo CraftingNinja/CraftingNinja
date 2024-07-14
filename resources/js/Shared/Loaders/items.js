@@ -49,7 +49,7 @@ const findUnloaded = () => {
     }
 
     axios.post(route('api.items.many'), { items: loadMe })
-        .then((response) => response.data.forEach((data) => (items.value[data.id] = data)))
+        .then((response) => response.data.data.forEach((data) => (items.value[data.id] = data)))
         .finally(fin);
 }
 

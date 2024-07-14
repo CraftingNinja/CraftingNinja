@@ -203,8 +203,8 @@ import Composable from '../composable.js'
 const { search, page } = Composable();
 
 const jobs = Object.values(usePage().props.jobs);
-const maxLevel = usePage().props.maxLevel;
-const maxItemLevel = usePage().props.maxItemLevel;
+const maxLevel = usePage().props.game.maxLevel;
+const maxItemLevel = usePage().props.game.maxItemLevel;
 const open = false;
 
 const defaultSearchData = {

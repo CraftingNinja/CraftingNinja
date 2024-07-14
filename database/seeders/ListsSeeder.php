@@ -1,5 +1,7 @@
 <?php
 
+// sail artisan db:seed ListsSeeder
+
 namespace Database\Seeders;
 
 use App\Models\Ninja\ListItems;
@@ -16,7 +18,7 @@ class ListsSeeder extends Seeder
         $lists = Lists::factory()->count(125)->create();
 
         foreach ($lists as $list) {
-            ListItems::factory()->count(rand(1,10))->create(['list_id' => $list->id]);
+            ListItems::factory()->count(rand(1, 10))->create([ 'list_id' => $list->id ]);
         }
     }
 }

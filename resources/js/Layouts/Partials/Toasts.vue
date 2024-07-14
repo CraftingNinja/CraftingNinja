@@ -24,7 +24,6 @@ const page = usePage();
 const loadInToasts = () => {
     // Parse the "prop" toasts - Passed with Inertia::render or ::share
     (page.props.toasts || []).forEach((item) => addToast(item));
-
     // Parse the "redirect" toasts - Passed on redirect()s or back()s using ->with('success', 'message')
     Object.values(page.props.flash?.toasts).forEach((item) => addToast(item));
 };

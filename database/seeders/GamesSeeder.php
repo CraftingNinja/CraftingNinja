@@ -10,11 +10,19 @@ class GamesSeeder extends Seeder
     public function run(): void
     {
         $games = Game::pluck('slug');
-        if ( ! $games->contains('ffxiv')) {
-            Game::create([
-                'name' => 'FFXIV',
-                'slug' => 'ffxiv',
-            ]);
+
+        // Slug => Name
+        $officialGameList = [
+            'ffxiv' => 'FFXIV',
+        ];
+
+        foreach ($officialGameList as $slug => $name) {
+            if ($games->contains('ffxiv')) {
+                continue;
+            }
+
+            Game::create(compact('slug', 'name'));
         }
+
     }
 }

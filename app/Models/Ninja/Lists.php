@@ -3,8 +3,8 @@
 namespace App\Models\Ninja;
 
 use App\Models\Scopes\GameScope;
-use ErikSulymosi\EloquentSqids\Eloquent\Traits\HasSqid;
-use ErikSulymosi\EloquentSqids\Eloquent\Traits\SqidRouting;
+use RossBearman\Sqids\HasSqid;
+use RossBearman\Sqids\SqidBasedRouting;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,7 +17,7 @@ class Lists extends Model
     use HasFactory;
     use SoftDeletes;
     use HasSqid;
-    use SqidRouting;
+    use SqidBasedRouting;
 
     protected $fillable = [
         'name',

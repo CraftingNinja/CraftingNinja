@@ -2,7 +2,7 @@
 
 namespace Database\Factories\Ninja;
 
-use App\Models\Item;
+use App\Models\GameEntities\Item;
 use App\Models\Ninja\ListItems;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

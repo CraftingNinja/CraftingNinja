@@ -15,18 +15,16 @@ class ListsFactory extends Factory
         return [
             'game_id' => 1,
             'user_id' => User::factory()->create(),
-            'name' => $this->faker->sentence(),
-            'description' => $this->faker->paragraph(),
+            'name' => fake()->sentence(),
+            'description' => fake()->paragraph(),
             'is_public' => true,
         ];
     }
 
     public function private(): static
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'is_public' => false,
-            ];
-        });
+        return $this->state(fn (array $attributes) => [
+            'is_public' => false,
+        ]);
     }
 }

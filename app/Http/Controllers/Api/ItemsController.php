@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\ItemResource as ItemResource;
-use App\Http\Resources\RecipeResource as RecipeResource;
-use App\Models\Item;
-use App\Models\Recipe;
-use Illuminate\Http\JsonResponse;
+use App\Models\GameEntities\Item;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ItemsController extends Controller
@@ -45,7 +42,7 @@ class ItemsController extends Controller
 
         // ilvl filter
         $imin = 1;
-        $imax = config('ffxiv.maxItemLevel');
+        $imax = config('game.maxItemLevel');
         $ilvlMin = min(max(request('ilvl_min', $imin), $imin), $imax);
         $ilvlMax = min(max(request('ilvl_max', $imax), $imin), $imax);
         if ($ilvlMin !== $imin && $ilvlMax !== $imax) {
@@ -55,7 +52,7 @@ class ItemsController extends Controller
         // Recipe filters
         if (request()->hasAny(['rlevel_min', 'rlevel_max', 'stars', 'jobs'])) {
             $rmin = 1;
-            $rmax = (int) config('ffxiv.maxLevel');
+            $rmax = (int) config('game.maxLevel');
             $rlvlMin = (int) min(max(request('rlevel_min', $rmin), $rmin), $rmax);
             $rlvlMax = (int) min(max(request('rlevel_max', $rmax), $rmin), $rmax);
             $rlvlRange = $rlvlMin !== $rmin && $rlvlMax !== $rmax ? [$rlvlMin, $rlvlMax] : false;

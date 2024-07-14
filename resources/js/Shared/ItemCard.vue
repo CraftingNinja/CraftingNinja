@@ -3,13 +3,10 @@
         class="flex gap-2 p-3 even:bg-accent/[.05] odd:bg-accent/[.07] hover:bg-accent/[.20] rounded"
     >
         <div class="relative group">
-            <img
-                role="button"
-                :src="item.icon"
-                class="w-[40px] h-[40px] self-center"
-                alt="Icon for item"
-                :title="item.category.name"
-            />
+            <ItemIcon
+				:item="item"
+				class="self-center"
+			/>
             <slot name="after-image" />
         </div>
         <div class="flex-1 leading-none text-xl font-medium overflow-hidden">
@@ -18,8 +15,12 @@
                 <slot name="after-name" />
             </div>
             <div class="flex pt-1 justify-items-end">
+				<slot
+					v-if="showBonusSlot"
+					name="bonus"
+				/>
                 <template
-                    v-if="item.recipes.length"
+                    v-else-if="item.recipes.length"
                     v-for="(recipe, key) in item.recipes"
                     :key="recipe.id"
                 >
@@ -65,9 +66,6 @@
                         />
                     </template>
                 </template>
-                <template v-else>
-                    <slot name="bonus" />
-                </template>
             </div>
         </div>
         <slot>
@@ -84,6 +82,7 @@
 
 <script setup>
 import { usePage } from "@inertiajs/vue3";
+import ItemIcon from "./ItemIcon.vue";
 import RecipeStars from "@/Shared/RecipeStars.vue";
 import AddToList from "@/Shared/List/AddToList.vue";
 import { asset } from "@/Shared/Helpers/assets.js";
@@ -91,7 +90,8 @@ import { asset } from "@/Shared/Helpers/assets.js";
 defineProps({
     item: Object,
     recipeId: Number,
-    viewOnly: Boolean
+    viewOnly: Boolean,
+	showBonusSlot: Boolean
 })
 
 const jobs = usePage().props.jobs;

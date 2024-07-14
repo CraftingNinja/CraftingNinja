@@ -3,164 +3,186 @@
         <SectionHead :title="title" />
 
         <LoadingDisplay v-if="loading" />
-        <div v-else-if="Object.values(locationTracker).length > 0">
+        <div v-else>
             <div class="flex space-x-4">
                 <div class="flex-1 space-y-4">
-                    <p class="text-semibold text-2xl">Gathering</p>
+					<template v-if="remainingGatheredItems.length > 0">
+						<div class="flex space-x-4">
+							<p class="text-semibold text-2xl">Gathering</p>
 
-                    <template
-                        v-for="(locationItems, location) in locationTracker"
-                        :key="location"
-                    >
-                        <div
-                            class=""
-                        >
-                            <div class="font-bold text-lg">
-                                {{ location }}
-                            </div>
-                            <div class="space-y-4">
-                                <template
-                                    v-for="(locData, locItemId) in locationItems"
-                                    :key="locItemId"
-                                >
-                                    <ItemCard
-                                        v-if="itemTracker[locItemId]"
-                                        :item="items[locItemId]"
-                                        :viewOnly="true"
-                                    >
-                                        <!--<template #after-image>-->
-                                        <!--    <button-->
-                                        <!--        type="button"-->
-                                        <!--        class="absolute inset-0 z-10 h-[40px] rounded-md invisible group-hover:visible backdrop-blur-sm"-->
-                                        <!--    >-->
-                                        <!--        <CheckMarkIcon class="w-7 h-7 mx-auto text-white" />-->
-                                        <!--    </button>-->
-                                        <!--</template>-->
-                                        <template #after-name>
-                                            <span class="text-base">
-                                                <span class="text-gray-600">x</span>
-                                                <span class="font-bold font-mono ml-0.5">
-                                                    {{ itemTracker[locItemId].needed }}
-                                                </span>
-                                            </span>
-                                        </template>
-                                        <template #bonus>
-                                            <span class="text-sm">
-                                                <template v-if="itemTracker[locItemId].preference.type === 'mobs'">
-                                                    <span class="space-x-2">
-                                                        <img
-                                                            class="inline w-5 h-5"
-                                                            :src="asset('gathering/fight.png')"
-                                                        />
-                                                        <span class="capitalize">{{ locData.name }}</span>
-                                                        <span>
-                                                            <span class="text-gray-600">lv</span><span class="text-sky-300">{{ locData.level }}</span>
-                                                        </span>
-                                                        <span
-                                                            v-if="items[locItemId].mobs.length - 1 > 0"
-                                                            class="text-gray-600"
-                                                        >
-                                                            others available
-                                                        </span>
-                                                    </span>
-                                                </template>
-                                                <template v-else-if="itemTracker[locItemId].preference.type === 'shops'">
-                                                    [SHOPS]
-                                                </template>
-                                                <template v-else-if="itemTracker[locItemId].preference.type === 'nodes'">
-                                                    [NODES]
-                                                </template>
-                                                <template v-else-if="itemTracker[locItemId].preference.type === 'fishing'">
-                                                    <span class="space-x-2">
-                                                        <img
-                                                            class="inline w-5 h-5"
-                                                            :src="asset('gathering/fishing.png')"
-                                                        />
-                                                        <span class="capitalize">{{ locData.name }}</span>
-                                                        <span>
-                                                            <span class="text-gray-600">lv</span><span class="text-sky-300">{{ locData.level }}</span>
-                                                        </span>
-                                                        <span
-                                                            v-if="items[locItemId].fishing.length - 1 > 0"
-                                                            class="text-gray-600"
-                                                        >
-                                                            others available
-                                                        </span>
-                                                    </span>
-                                                </template>
+							<!-- TODO 1 - Location Filtering! -->
+							<!--<LocationDropdown-->
+							<!--    class="relative z-20 w-full"-->
+							<!--    :locations="state.locations"-->
+							<!--/>-->
+						</div>
 
-                                            </span>
-                                        </template>
-                                        <template #default>
-                                            <button
-                                                type="button"
-                                                class="w-[40px] h-[40px] rounded-md border-2 border-accent group"
-                                            >
-                                                <CheckMarkIcon
-                                                    class="w-7 h-7 mx-auto text-white invisible group-hover:visible"
-                                                />
-                                            </button>
-                                        </template>
-                                    </ItemCard>
-                                </template>
-                            </div>
-                        </div>
-                    </template>
+						<div class="space-y-4">
+							<div class="grid grid-cols-2 gap-3 lg:grid-cols-3">
+								<GatheringItemCard
+									v-for="item in remainingGatheredItems"
+									:key="item.id"
+									:item="item"
+									@information-pane="openInformationSlideOver"
+								/>
+							</div>
+						</div>
+					</template>
 
+					<template v-if="remainingShoppingItems.length > 0">
+						<div class="flex space-x-4">
+							<p class="text-semibold text-2xl">Shopping</p>
+						</div>
 
-                    <!--<template-->
-                    <!--    v-for="item in items"-->
-                    <!--    :key="itemId"-->
-                    <!--&gt;-->
-                    <!--    <div-->
-                    <!--        v-if="itemTracker[item.id].preference.type !== 'recipes' && itemTracker[item.id].needed && ! itemTracker[item.id].ignore && itemTracker[item.id].needed > itemTracker[item.id].obtained"-->
-                    <!--        class="odd:bg-gray-700 p-3"-->
-                    <!--    >-->
-                    <!--        {{ item.name }} {{ itemTracker[item.id] }}-->
-                    <!--    </div>-->
-                    <!--</template>-->
+						<div class="space-y-4">
+							<div class="grid grid-cols-2 gap-3 lg:grid-cols-3">
+								<GatheringItemCard
+									v-for="item in remainingShoppingItems"
+									:key="item.id"
+									:item="item"
+									@information-pane="openInformationSlideOver"
+								/>
+							</div>
+						</div>
+					</template>
+
+					<template
+						v-for="(section, key) in remainingCraftingItems"
+						:key="key"
+					>
+						<div class="flex space-x-4">
+							<img
+								class="inline w-[32px] h-[32px]"
+								:src='asset(`classjob/${section.job.name.toLowerCase()}.png`)'
+								:alt='`Icon of ${section.job.name}`'
+							>
+							<p class="text-semibold text-2xl">
+								{{ section.job.name }} Crafting
+							</p>
+						</div>
+
+						<div class="space-y-4">
+							<div class="grid grid-cols-2 gap-3 lg:grid-cols-3">
+								<GatheringItemCard
+									v-for="item in section.items"
+									:key="item.id"
+									:item="item"
+									@information-pane="openInformationSlideOver"
+								/>
+							</div>
+						</div>
+					</template>
                 </div>
-                <div class="rounded bg-gray-700 p-1 space-y-1">
-                    <template v-for="item in items" :key="item.id">
-                        <div
-                            v-if="itemTracker[item.id].needed && (itemTracker[item.id]?.ignore || itemTracker[item.id].needed <= itemTracker[item.id].obtained)"
-                            class="relative"
-                        >
-                            <img
-                                :src="item.icon"
-                                class="w-[32px] h-[32px] self-center opacity-50"
-                                alt="Icon for item"
-                            />
-                            <div class="absolute bottom-[2px] right-[2px] leading-none font-mono text-xs">
-                                {{ itemTracker[item.id].needed }}
-                            </div>
-                        </div>
-                    </template>
+                <div>
+                    <div class="rounded bg-gray-700 p-1 space-y-1">
+						<button
+							v-for="item in completedItems"
+							:key="item.id"
+							type="button"
+							class="relative block"
+							:class="{
+								'cursor-not-allowed': item.ignore
+							}"
+							@click="moveBack(item)"
+						>
+							<img
+								:src="item.icon"
+								class="w-[32px] h-[32px] self-center opacity-50"
+								alt="Icon for item"
+							/>
+							<span class="absolute bottom-[2px] right-[2px] leading-none font-mono text-xs">
+								{{ item.needed }}
+							</span>
+						</button>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <ItemInformationSlideOver
+            :item="informationItem"
+            :show="informationShow"
+            @close="informationShow = false"
+        />
     </div>
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import SectionHead from "@/Shared/SectionHead.vue";
 import LoadingDisplay from "./Partials/Loading.vue";
 import ListComposable from "@/Shared/List/composable.js";
 import CraftComposable from "./composable.js";
 import ItemsComposable from "@/Shared/Loaders/items.js";
-import ItemCard from "@/Shared/ItemCard.vue";
 import { asset } from "@/Shared/Helpers/assets.js";
-import CheckMarkIcon from "~icons/game-icons/check-mark";
+import ItemInformationSlideOver from "@/Pages/Craft/Partials/ItemInformationSlideOver.vue";
+import GatheringItemCard from "@/Pages/Craft/Partials/GatheringItemCard.vue";
+import { usePage } from "@inertiajs/vue3";
 
 const { loading, items } = ItemsComposable();
-const { registerWantedItem, reset, itemTracker, locationTracker } = CraftComposable();
+const { registerWantedItem, reset, state, savePreference } = CraftComposable();
 
 const props = defineProps({
     list: [Object, Boolean]
 });
 
+const jobs = Object.values(usePage().props.jobs);
+
+const nodeTypeToAssetName = [
+    'mining', // Node Type 0 is golden pick
+    'quarrying', // Node Type 1 is blue pick
+    'logging', // 2 is golden feather
+    'harvesting', // 3 is blue feather
+];
+
 const title = ref('Craft');
+
+const isGathering = (item) => ['nodes', 'mobs', 'fishing'].includes(item.preference.type);
+const isShopping = (item) => ['shops'].includes(item.preference.type);
+const isRecipes = (item) => ['recipes'].includes(item.preference.type);
+const isDone = (item) => item.needed && (item.ignore || item.needed <= item.obtained);
+
+const moveBack = (item) => (item.obtained = 0);
+
+const informationShow = ref(false);
+const informationItem = ref({});
+
+const openInformationSlideOver = (item) => {
+    informationItem.value = item;
+    informationShow.value = true;
+};
+
+const remainingGatheredItems = computed(() => Object.values(state.items).filter((item) => ! isDone(item) && isGathering(item)));
+const remainingShoppingItems = computed(() => Object.values(state.items).filter((item) => ! isDone(item) && isShopping(item)));
+const remainingCraftingItems = computed(() => {
+	// Group crafting items by their Class/Job
+	const recipeItems = Object.values(state.items).filter((item) => ! isDone(item) && isRecipes(item));
+	const sections = {};
+
+	recipeItems.forEach((item) => {
+		const jobId = item.preference.entity.job_id;
+
+		if (sections[jobId] === undefined) {
+			sections[jobId] = {
+				job: jobs.find((job) => job.id === parseInt(jobId)),
+				items: []
+			};
+		}
+
+		sections[jobId].items.push(item);
+	});
+
+	// Sort sections by their item length, shortest to longest
+	// And internally sort each section's items by their recipe level
+	const sortable = Object.values(sections).sort((a, b) => a.items.length - b.items.length);
+
+	sortable.forEach((section) => {
+		section.items = section.items.sort((a, b) => a.preference.entity.recipe_level - b.preference.entity.recipe_level);
+	});
+
+	return sortable;
+});
+const completedItems = computed(() => Object.values(state.items).filter((item) => isDone(item)));
 
 onMounted(() => {
     if (props.list === false) {
