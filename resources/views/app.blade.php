@@ -19,10 +19,6 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;700&amp;family&#x3D;Rock+Salt&display=swap" rel="stylesheet">
 
-        <script>
-            window.assetUrl = "{{ config('services.assets.url') }}";
-        </script>
-
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead

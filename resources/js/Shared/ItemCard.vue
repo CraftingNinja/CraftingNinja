@@ -5,7 +5,7 @@
         <div class="relative group">
             <ItemIcon
 				:item="item"
-				class="self-center"
+                :quality="quality"
 			/>
             <slot name="after-image" />
         </div>
@@ -38,7 +38,7 @@
                     >
                         <img
                             class="inline w-5 h-5"
-                            :src='asset(`classjob/${jobs[recipe.job_id]?.name.toLowerCase() || "doh"}.png`)'
+                            :src='gameAsset(`classjob/${jobs[recipe.job_id]?.name.toLowerCase() || "doh"}.png`)'
                             :alt='`Icon of ${jobs[recipe.job_id]?.name}`'
                         >
                     </AddToList>
@@ -48,7 +48,7 @@
                         <!-- View Only Img -->
                         <img
                             class="inline w-5 h-5"
-                            :src='asset(`classjob/${jobs[recipe.job_id]?.name.toLowerCase() || "doh"}.png`)'
+                            :src='gameAsset(`classjob/${jobs[recipe.job_id]?.name.toLowerCase() || "doh"}.png`)'
                             :alt='`Icon of ${jobs[recipe.job_id]?.name}`'
                         >
                     </div>
@@ -83,15 +83,17 @@
 <script setup>
 import { usePage } from "@inertiajs/vue3";
 import ItemIcon from "./ItemIcon.vue";
-import RecipeStars from "@/Shared/RecipeStars.vue";
-import AddToList from "@/Shared/List/AddToList.vue";
-import { asset } from "@/Shared/Helpers/assets.js";
+import RecipeStars from "@S/RecipeStars.vue";
+import AddToList from "@S/List/AddToList.vue";
+import { gameAsset } from "@H/assets.js";
+import { defaultObject, defaultNumber, defaultFalse } from "@H/propDefaults.js";
 
 defineProps({
-    item: Object,
-    recipeId: Number,
-    viewOnly: Boolean,
-	showBonusSlot: Boolean
+    item: defaultObject,
+    recipeId: defaultNumber,
+    viewOnly: defaultFalse,
+	showBonusSlot: defaultFalse,
+    quality: defaultFalse,
 })
 
 const jobs = usePage().props.jobs;

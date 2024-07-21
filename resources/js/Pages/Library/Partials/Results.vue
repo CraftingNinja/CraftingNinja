@@ -35,12 +35,12 @@
 </template>
 
 <script setup>
-import Spinner from "@/Shared/Spinner.vue";
+import Spinner from "@S/Spinner.vue";
 import MortarPestleIcon from "~icons/game-icons/pestle-mortar";
-import ItemCard from "@/Shared/ItemCard.vue";
-import Pagination from "@/Shared/Pagination.vue";
+import ItemCard from "@S/ItemCard.vue";
+import Pagination from "@S/Pagination.vue";
 import Composable from '../composable.js';
-import EmptyState from "@/Shared/EmptyState.vue";
+import EmptyState from "@S/EmptyState.vue";
 
 const { items, loading, page } = Composable();
 

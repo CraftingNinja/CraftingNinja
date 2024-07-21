@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <SectionHead title="Hunting Log" />
-
+    <Page title="Hunting Log">
         <div class="grid grid-cols-12 space-x-4">
             <div class="col-span-3 rounded p-3 bg-gray-700">
                 <ul class="space-y-3">
@@ -29,7 +27,7 @@
                         >
                             <img
                                 class="inline w-7 h-7"
-                                :src='asset(kind === "jobs" ? `classjob/${name.toLowerCase()}.png` : `companies/square_${abbr.toLowerCase()}.png`)'
+                                :src='gameAsset(kind === "jobs" ? `classjob/${name.toLowerCase()}.png` : `companies/square_${abbr.toLowerCase()}.png`)'
                                 :alt='`Icon of ${name}`'
                             >
                             <span class="flex-1 truncate">
@@ -79,7 +77,7 @@
                                 class="flex px-2 flex-shrink-0 items-center justify-center"
                             >
                                 <img
-                                    :src="asset(`hunting/${hunt.image}`)"
+                                    :src="gameAsset(`hunting/${hunt.image}`)"
                                     class="inline w-[44px] h-[48px]"
                                     :alt="hunt.task"
                                 />
@@ -90,7 +88,7 @@
                                     <p>
                                         <img
                                             class="inline w-5 h-5 mr-1"
-                                            :src='asset(jobs[hunt.class] ? `classjob/${jobs[hunt.class].toLowerCase()}.png` : `companies/square_${hunt.class.toLowerCase()}.png`)'
+                                            :src='gameAsset(jobs[hunt.class] ? `classjob/${jobs[hunt.class].toLowerCase()}.png` : `companies/square_${hunt.class.toLowerCase()}.png`)'
                                             :alt='`Icon of ${hunt.class}`'
                                         >
                                         <span class="text-gray-500">#</span>{{ hunt.rank }}<span v-if="hunt.slot">.{{ hunt.slot }}</span>
@@ -126,14 +124,13 @@
                 </div>
             </div>
         </div>
-    </div>
+    </Page>
 </template>
 
 <script setup>
 import { computed } from "vue";
-import SectionHead from '@/Shared/SectionHead.vue';
-import { useStorage } from "@/Shared/Helpers/useStorage.js";
-import { asset } from "@/Shared/Helpers/assets.js";
+import { useStorage } from "@H/useStorage.js";
+import { gameAsset } from "@H/assets.js";
 import Number0Icon from "~icons/mdi/numeric-0-box-outline";
 import Number1Icon from "~icons/mdi/numeric-1-box";
 import Number2Icon from "~icons/mdi/numeric-2-box";
@@ -143,7 +140,8 @@ import Number5Icon from "~icons/mdi/numeric-5-box";
 import MapMarkerIcon from "~icons/mdi/map-marker";
 import SwordIcon from "~icons/mdi/sword";
 import SkullIcon from "~icons/mdi/skull";
-import EmptyState from "@/Shared/EmptyState.vue";
+import EmptyState from "@S/EmptyState.vue";
+import Page from "@/Layouts/Page.vue";
 
 const numberToIcon = [
     Number0Icon,
@@ -212,6 +210,4 @@ const toggleHuntTracker = (hunt) => {
     const key = huntTrackerKey(hunt);
     tracker.value.hunts[key] = ! tracker.value.hunts[key];
 };
-
-
 </script>

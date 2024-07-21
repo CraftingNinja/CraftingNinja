@@ -17,8 +17,8 @@
 
 <script setup>
 import { computed } from "vue";
-import Spinner from "@/Shared/Spinner.vue";
-import ItemsComposable from "@/Shared/Loaders/items.js";
+import Spinner from "@S/Spinner.vue";
+import ItemsComposable from "@S/Loaders/items.js";
 const { wanted, items } = ItemsComposable();
 const loadedPercentage = computed(() => parseInt((Object.keys(items.value).length / wanted.value.length) * 100));
 </script>

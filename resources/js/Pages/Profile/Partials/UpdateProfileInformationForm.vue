@@ -129,7 +129,7 @@ const clearPhotoFileInput = () => {
 
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="Username" />
                 <TextInput
                     id="name"
                     v-model="form.name"

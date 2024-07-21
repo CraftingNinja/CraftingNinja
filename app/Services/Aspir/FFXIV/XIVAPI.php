@@ -32,7 +32,7 @@ class XIVAPI
 			'Name',
 			'ItemTargetID',
 			'IconID',
-		], function($data) {
+		], function ($data) {
 			// We only care about achievements that provide an item
 			if ( ! $data->ItemTargetID)
 				return;
@@ -54,7 +54,7 @@ class XIVAPI
 			'Maps.0.PlaceNameRegionTargetID',
 			'Maps.0.PlaceNameSubTargetID',
 			'Maps.0.PlaceNameTargetID',
-		], function($data) {
+		], function ($data) {
 			// Skip empty names
 			if ($data->Name == '')
 				return;
@@ -116,7 +116,7 @@ class XIVAPI
 			'Item5.Item.ID',
 			'Item6.Item.ID',
 			'Item7.Item.ID',
-		], function($data) use ($teamcraftNodes, $timeConverter) {
+		], function ($data) use ($teamcraftNodes, $timeConverter) {
             if ($data->GameContentLinks->GatheringPoint->GatheringPointBase[0] === null)
                 return;
 
@@ -215,7 +215,7 @@ class XIVAPI
 			'Item8.LevelItem',
 			'Item9.ID',
 			'Item9.LevelItem',
-		], function($data) {
+		], function ($data) {
 			// Skip empty names
 			if ($data->PlaceName->Name == '') {
 				return;
@@ -257,7 +257,7 @@ class XIVAPI
 		$this->loopEndpoint('bnpcname', [
 			'ID',
 			'Name',
-		], function($data) {
+		], function ($data) {
 			// Skip empty names
 			if ($data->Name == '')
 				return;
@@ -290,7 +290,7 @@ class XIVAPI
 			// 'Quests',
 			// 'GilShop',
 			// 'SpecialShop',
-		], function($data) {
+		], function ($data) {
 			// Skip empty names
 			if ($data->Name == '')
 				return;
@@ -328,7 +328,7 @@ class XIVAPI
 							]);
 						}
 		}, [
-			'ids' => function($value, $key) {
+			'ids' => function ($value, $key) {
 				// After ID 1028800, Quests, GilShop and SpecialShop all disappear, causing errors
 				return $value < 1028800;
 			}
@@ -412,7 +412,7 @@ class XIVAPI
 			'ScriptArg8',
 			'ScriptInstruction9',
 			'ScriptArg9',
-		], function($data) {
+		], function ($data) {
 			// Skip empty names
 			if ($data->Name == '')
 				return;
@@ -477,7 +477,7 @@ class XIVAPI
 			'ContentType.ID',
 			'ContentFinderCondition.TerritoryType.PlaceName.ID',
 			'ContentFinderCondition.ImageID',
-		], function($data) {
+		], function ($data) {
 			// Skip empty names
 			if ($data->Name == '')
 				return;
@@ -498,7 +498,7 @@ class XIVAPI
 			'ID',
 			'NameEnglish', // `NameEnglish` is capitalized; `Name` is not
 			'Abbreviation',
-		], function($data) {
+		], function ($data) {
 			$this->service->setData('job', [
 				'id'   => $data->ID,
 				'name' => $data->NameEnglish,
@@ -516,7 +516,7 @@ class XIVAPI
 		$this->loopEndpoint('classjobcategory', array_merge([
 			'ID',
 			'Name',
-		], $abbreviations->toArray()), function($data) use ($abbreviations) {
+		], $abbreviations->toArray()), function ($data) use ($abbreviations) {
 			$this->service->setData('job_category', [
 				'id'   => $data->ID,
 				'name' => $data->Name,
@@ -541,7 +541,7 @@ class XIVAPI
 			'VentureCost',
 			'IsRandom',
 			'Task',
-		], function($data) {
+		], function ($data) {
 			// The Quantities are only applicable for "Normal" Ventures
 			$quantities = [];
 			$name = null;
@@ -612,7 +612,7 @@ class XIVAPI
 			'CraftLeve.Repeats',
 			// Inefficient catchall, but there are a large number of datapoints in there I need to sift through
 			'LeveRewardItem',
-		], function($data) {
+		], function ($data) {
 			// No rewards? Don't bother.
 			if ($data->LeveRewardItem == null)
 				return;
@@ -678,7 +678,7 @@ class XIVAPI
 			'Name',
 			'OrderMajor',
 			'OrderMinor',
-		], function($data) {
+		], function ($data) {
 			$this->service->setData('item_category', [
 				'id'        => $data->ID,
 				'name'      => $data->Name,
@@ -775,7 +775,7 @@ class XIVAPI
 			//  potion values
 			//  item food connections
 			'ItemAction',
-		], function($data) use ($rootParamConversion) {
+		], function ($data) use ($rootParamConversion) {
 			if ($data->Name == '' || substr($data->Name, 0, 6) == 'Dated ')
 				return;
 
@@ -994,7 +994,7 @@ class XIVAPI
 			'RecipeLevelTable.Quality',
 			'RecipeLevelTable.Stars',
 			'CanQuickSynth',
-			'GameContentLinks.RecipeNotebookList',
+			// 'GameContentLinks.RecipeNotebookList', // Can't trust this, there are wonky duplicate references
 			'AmountResult',
 			'CanHq',
 			// Reagents
@@ -1018,9 +1018,10 @@ class XIVAPI
 			'AmountIngredient7',
 			'AmountIngredient8',
 			'AmountIngredient9',
-		], function($data) {
-			if ( ! $data->ItemResultTargetID)
+		], function ($data) {
+			if ( ! $data->ItemResultTargetID) {
 				return;
+            }
 
 			$this->service->setData('recipe', [
 				'id'           => $data->ID,
@@ -1037,20 +1038,6 @@ class XIVAPI
 				'hq'           => $data->CanHq ? 1 : null,
 				'fc'           => null,
 			], $data->ID);
-
-			if ($data->GameContentLinks->RecipeNotebookList)
-				foreach ($data->GameContentLinks->RecipeNotebookList as $slot => $rnlIds)
-					foreach ($rnlIds as $notebookId)
-					{
-						if ( ! $notebookId)
-							continue;
-
-						$this->service->setData('notebook_recipe', [
-							'recipe_id'   => $data->ID,
-							'notebook_id' => $notebookId + 1, // Avoid 0 index, accounted for later as well
-							'slot'        => (int) preg_replace('/Recipe/', '', $slot),
-						]);
-					}
 
 			foreach (range(0, 9) as $slot)
 				if ($data->{'ItemIngredient' . $slot . 'TargetID'} && $data->{'AmountIngredient' . $slot})
@@ -1080,7 +1067,7 @@ class XIVAPI
 			'CompanyCraftPart5',
 			'CompanyCraftPart6',
 			'CompanyCraftPart7',
-		], function($data) use ($idBase) {
+		], function ($data) use ($idBase) {
 
 			$recipeId = $idBase + $data->ID;
 
@@ -1130,7 +1117,7 @@ class XIVAPI
 			'ID',
 			'Name',
 			'NotebookDivisionCategoryTargetID',
-		], function($data) {
+		], function ($data) {
 			$id = $data->ID + 1; // 0 index'd, artificially +1'd
 
 			$this->service->setData('notebookdivision', [
@@ -1152,13 +1139,64 @@ class XIVAPI
 		$this->loopEndpoint('notebookdivisioncategory', [
 			'ID',
 			'Name',
-		], function($data) {
+		], function ($data) {
 			$this->service->setData('notebookdivision_category', [
 				'id'   => $data->ID,
 				'name' => $data->Name,
 			], $data->ID);
 		});
 	}
+
+    public function recipeNotebooks()
+    {
+        // 3000 calls were taking over the allotted 10s call limit imposed by XIVAPI's Guzzle Implementation
+        $this->limit = 50;
+
+        $iStart = 0;
+        $iLimitIncrement = 24;
+        $iLimit = $iLimitIncrement;
+
+        $filters = [];
+
+        while (true) {
+            $hitLimit = [];
+
+            $this->loopEndpoint('recipenotebooklist', [
+                'ID',
+                // Build a bunch of TargetID lookups
+                ...array_map(fn ($i) => "Recipe{$i}TargetID", range($iStart, $iLimit)),
+            ], function ($data) use ($iStart, $iLimit, &$hitLimit) {
+                foreach (range($iStart, $iLimit) as $i) {
+                    $key = "Recipe{$i}TargetID";
+
+                    if ($data->$key === "-1" || empty($data->$key)) {
+                        continue;
+                    }
+
+                    if ($i === $iLimit) {
+                        $hitLimit[] = $data->ID;
+                    }
+
+                    $this->service->setData('notebook_recipe', [
+                        'recipe_id'   => $data->$key,
+                        'notebook_id' => $data->ID + 1, // Zero indexed, artificially inflate
+                        'slot'        => $i,
+                    ]);
+                }
+            }, $filters);
+
+            if (count($hitLimit)) {
+                $this->service->command->info('notebook_recipe loop: ' . count($hitLimit) . ' limits reached.');
+                $filters = ['ids' => $hitLimit];
+                $iStart = $iLimit + 1;
+                $iLimit += $iLimitIncrement;
+            } else {
+                break;
+            }
+        }
+
+        $this->limit = null;
+    }
 
 	/**
 	 * loopEndpoint - Loop around an XIVAPI Endpoint
@@ -1170,22 +1208,24 @@ class XIVAPI
 	private function loopEndpoint($endpoint, $columns, \Closure $callback, $filters = [])
 	{
 		$request = $this->listRequest($endpoint, ['columns' => ['ID']]);
-		foreach ($request->chunk($this->chunkLimit !== null ? $this->chunkLimit : 100) as $chunk)
-		{
-			$ids = $chunk->map(function($item) {
-				return $item->ID;
-			});
+		foreach ($request->chunk($this->chunkLimit !== null ? $this->chunkLimit : 100) as $chunk) {
+			$ids = $chunk->map(fn ($item) => $item->ID);
 
-			if (isset($filters['ids']))
-				$ids = $ids->filter($filters['ids']);
+			if (isset($filters['ids'])) {
+                $ids = is_array($filters['ids'])
+                    ? $ids->intersect($filters['ids'])
+                    : $ids->filter($filters['ids']);
+            }
 
-			if (empty($ids))
-				continue;
+			if (empty($ids)) {
+                continue;
+            }
 
 			$chunk = $this->request($endpoint, ['ids' => $ids->join(','), 'columns' => $columns]);
 
-			foreach ($chunk->Results as $data)
+			foreach ($chunk->Results as $data) {
                 ($callback)($data);
+            }
 		}
 	}
 
@@ -1196,15 +1236,15 @@ class XIVAPI
 
 		$results = [];
 
-		while (true)
-		{
+		while (true) {
 			// $response now contains ->Pagination and ->Results
 			$response = $this->request($content, $queries);
 
 			$results = array_merge($results, $response->Results);
 
-			if ($response->Pagination->PageTotal == $response->Pagination->Page)
-				break;
+			if ($response->Pagination->PageTotal == $response->Pagination->Page) {
+                break;
+            }
 
 			$queries['page'] = $response->Pagination->PageNext;
 		}
@@ -1215,7 +1255,7 @@ class XIVAPI
 	private function request($content, $queries = [])
 	{
 		return $this->service->cache
-            ->rememberForever($content . serialize($queries), function() use ($content, $queries) {
+            ->rememberForever($content . serialize($queries), function () use ($content, $queries) {
                 $this->service->command->info(
                     'Querying: ' .
                     $content .

@@ -24,7 +24,7 @@
                     </p>
                     <div class="mt-1 flex items-center gap-x-2 text-xs leading-5 text-white">
                         <p>
-                            {{ list.user.name }}
+                            {{ list.user?.name || 'Craftori Hanzo' }}
                         </p>
                         <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 fill-current">
                             <circle cx="1" cy="1" r="1" />
@@ -69,8 +69,8 @@ import ScrollIcon from "~icons/game-icons/scroll-unfurled"
 import ChevronRightIcon from "~icons/ion/chevron-right"
 import { Link } from "@inertiajs/vue3"
 import { DateTime } from "luxon";
-import Pagination from "@/Shared/Pagination.vue";
-import EmptyState from "@/Shared/EmptyState.vue";
+import Pagination from "@S/Pagination.vue";
+import EmptyState from "@S/EmptyState.vue";
 
 defineProps({
     lists: Object

@@ -67,7 +67,7 @@
 <script setup>
 import { ref } from "vue";
 import { router, usePage } from '@inertiajs/vue3';
-import Button from "@/Shared/Button.vue";
+import Button from "@S/Button.vue";
 import CraftingIcon from '~icons/game-icons/claw-hammer';
 import ExportIcon from '~icons/mdi/export';
 import SaveIcon from '~icons/mdi/content-save-plus';
@@ -75,7 +75,7 @@ import DeleteIcon from '~icons/mdi/delete-empty';
 import ShareIcon from '~icons/mdi/share-variant';
 import CSVIcon from '~icons/tabler/file-type-csv';
 
-import ListComposable from "@/Shared/List/composable.js";
+import ListComposable from "@S/List/composable.js";
 const { activeList, emptyList } = ListComposable();
 
 const state = ref('default');

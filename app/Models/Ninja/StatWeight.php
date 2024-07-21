@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Ninja;
 
 use App\Models\GameEntities\Item;
 use App\Models\GameEntities\Job;

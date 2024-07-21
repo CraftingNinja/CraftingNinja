@@ -1,6 +1,6 @@
 import { reactive, ref, watch } from "vue";
-import ItemsComposable from "@/Shared/Loaders/items.js";
-import { useStorage } from "@/Shared/Helpers/useStorage.js";
+import ItemsComposable from "@S/Loaders/items.js";
+import { useStorage } from "@H/useStorage.js";
 import { debounce } from "lodash";
 
 const options = useStorage('craftingOptions', {
@@ -46,7 +46,7 @@ const calculateItem = (item_id, requested, trigger, force = false) => {
     const item = items.value[item_id];
 
     if (force || state.items[item_id] === undefined) {
-        const [prefType, prefId] = state.preferences[item_id]?.split('|') || [null, null];
+        const [prefType, prefId] = typeof state.preferences[item_id] === 'string' ? state.preferences[item_id].split('|') : [null, null];
 
         const can = {
             r: item.recipes.length > 0,
@@ -79,7 +79,7 @@ const calculateItem = (item_id, requested, trigger, force = false) => {
             n: 'nodes',
             m: 'mobs',
             f: 'fishing',
-            s: 'shops'
+            s: 'shops',
         };
 
         Object.entries(preferenceType).forEach(([key, value]) => {
@@ -89,7 +89,9 @@ const calculateItem = (item_id, requested, trigger, force = false) => {
         });
 
         preference.entity = resolvePreferenceEntity(item_id, preference.type, prefId);
-        preference.identifier = preference.type.charAt(0) + '|' + preference.entity.id;
+        preference.identifier = preference.type
+            ? preference.type.charAt(0) + '|' + preference.entity.id
+            : false;
 
         // Initial Setup
         state.items[item_id] = {

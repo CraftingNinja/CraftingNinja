@@ -2,7 +2,7 @@
 
 namespace App\Services\Aspir;
 
-use App\Services\Aspir\AspirService;
+use App\Providers\GameServiceProvider;
 use App\Models\GameEntities\Achievement;
 use App\Models\GameEntities\Instance;
 use App\Models\GameEntities\Item;
@@ -16,13 +16,11 @@ final class FFXIVService extends AspirAbstract implements AspirService
 {
     public function __construct(public &$command, bool $fresh = false)
     {
-        $aspirConfig = config('games.ffxiv.internals.aspir');
+        $this->assetsDir = GameServiceProvider::$aspir['assets_dir'];
+        $this->dataDir = GameServiceProvider::$aspir['data_dir'];
+        $this->compiledDir = GameServiceProvider::$aspir['compiled_dir'];
 
-        $this->assetsDir = $aspirConfig['assets_dir'];
-        $this->dataDir = $aspirConfig['data_dir'];
-        $this->compiledDir = $aspirConfig['compiled_dir'];
-
-        $this->setCache($aspirConfig['cache_slug']);
+        $this->setCache(GameServiceProvider::$aspir['cache_slug']);
 
         if ($fresh) {
             $this->clearCache();
@@ -49,6 +47,7 @@ final class FFXIVService extends AspirAbstract implements AspirService
             'xivapi' => [
                 'class' => new XIVAPI($this),
                 'calls' => [
+                    'recipeNotebooks', // TODO 1 move to bottom of list; testing
                     'achievements',
                     'locations',
                     'nodes',
@@ -122,13 +121,19 @@ final class FFXIVService extends AspirAbstract implements AspirService
             'http' => ['ignore_errors' => true],
         ]);
 
+        $pluckRawOriginal = fn (string $model, string $key) =>
+            $model::select($key)
+                ->get()
+                ->map(fn ($r) => (string) $r->getRawOriginal($key))
+                ->unique();
+
         $iconSets = [
-            'item'        => Item::select('icon')->pluck('icon')->unique(),
-            'instance'    => Instance::select('icon')->pluck('icon')->unique(),
-            'quest'       => Quest::select('icon')->pluck('icon')->unique(),
-            'achievement' => Achievement::select('icon')->pluck('icon')->unique(),
-            'levePlates'  => Leve::select('plate')->pluck('plate')->unique(),
-            'leveFrames'  => Leve::select('frame')->pluck('frame')->unique(),
+            $pluckRawOriginal(Item::class, 'icon'),
+            $pluckRawOriginal(Instance::class, 'icon'),
+            $pluckRawOriginal(Quest::class, 'icon'),
+            $pluckRawOriginal(Achievement::class, 'icon'),
+            $pluckRawOriginal(Leve::class, 'plate'),
+            $pluckRawOriginal(Leve::class, 'frame'),
         ];
 
         exec('find "' . $this->assetsDir . '" -name *.png', $existingImages);

@@ -23,7 +23,7 @@
 											<DialogTitle class="text-xl font-semibold leading-6 text-white flex space-x-3">
 												<img
 													role="button"
-													:src="item.icon"
+													:src="gameAsset(item.icon)"
 													class="w-[40px] h-[40px]"
 													alt="Icon for item"
 													:title="item.category.name"
@@ -57,7 +57,7 @@
 												class="space-y-2"
 											>
 												<div>
-													Item is involved in making:
+													Reagent is involved in making:
 												</div>
 
 												<div class="flex flex-wrap gap-2">
@@ -71,13 +71,21 @@
 
 											<div>
 												<div class="leading-none pb-2">
-													Configure this item's gathering preference.
+													Configure this reagent's gathering preference.
 												</div>
 
 												<RadioGroup
 													v-model="selectedPreference"
 												>
 													<div class="mt-4 grid grid-cols-1 gap-y-4">
+                                                        <p v-if="!filteredPreferences.length" class="text-amber-500">
+                                                            <img
+                                                                :src="gameAsset('status/confused.png')"
+                                                                class="inline"
+                                                                alt="Confusion"
+                                                            />
+                                                            Data missing. Unknown gathering information.
+                                                        </p>
 														<RadioGroupOption
 															as="template"
 															v-for="pref in filteredPreferences"
@@ -97,7 +105,7 @@
 																<span class="flex flex-1 space-x-1">
 																	<img
 																		class="inline w-5 h-5"
-																		:src="asset('gathering/' + pref.display.icon)"
+																		:src="gameAsset('gathering/' + pref.display.icon)"
 																	/>
 																	<span class="flex flex-col">
 																		<RadioGroupLabel
@@ -163,7 +171,7 @@
 										<button
 											type="button"
 											class="ml-4 inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-											@click="saveChoice"
+											@click="saveChoice()"
 										>
 											Save
 										</button>
@@ -182,11 +190,11 @@
 import { computed, ref, watch, unref } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-import { asset } from "@/Shared/Helpers/assets.js";
+import { gameAsset } from "@H/assets.js";
 import { RadioGroup, RadioGroupDescription, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue'
 import { CheckCircleIcon } from '@heroicons/vue/20/solid'
 import CraftComposable from "../composable.js";
-import ItemIcon from "@/Shared/ItemIcon.vue";
+import ItemIcon from "@S/ItemIcon.vue";
 
 const { savePreference } = CraftComposable();
 
@@ -277,7 +285,9 @@ const filteredPreferences = computed(() => {
 });
 
 const calculateSelectedPreference = () => {
-    selectedPreference.value = props.item.preference.type.charAt(0) + '|' + props.item.preference.entity.id;
+    selectedPreference.value = props.item.preference.type
+        ? props.item.preference.type.charAt(0) + '|' + props.item.preference.entity.id
+        : false;
 };
 
 const saveChoice = (prefId) => {

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Providers\GameServiceProvider;
 use Database\Seeders\GameDataSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
@@ -14,10 +15,10 @@ class OsmoseCommand extends Command
 
     public function handle(): void
     {
-        $slug = strtolower($this->argument('slug'));
+        // {slug} handled by GameServiceProvider and populates the static values
 
-        $connection = config("games.$slug.internals.connection");
-        $class = config("games.$slug.internals.aspir.service");
+        $connection = GameServiceProvider::$connection;
+        $class = GameServiceProvider::$aspir['service'];
 
         $aspirService = new $class($this);
 

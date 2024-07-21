@@ -2,11 +2,17 @@
 
 namespace App\Models\GameEntities;
 
+use App\Casts\IconPathCast;
+
 class Quest extends GameEntityAbstract {
 
 	protected $table = 'quest';
 
 	protected $guarded = ['id'];
+
+    protected $casts = [
+        'icon' => IconPathCast::class,
+    ];
 
 	public function rewards()
 	{

@@ -49,13 +49,13 @@
 <script setup>
 import { onMounted } from "vue";
 import { Link } from '@inertiajs/vue3';
-import ItemCard from "@/Shared/ItemCard.vue";
+import ItemCard from "@S/ItemCard.vue";
 import ScrollIcon from "~icons/lucide/scroll-text";
-import Spinner from "@/Shared/Spinner.vue";
-import EmptyState from "@/Shared/EmptyState.vue";
-import ItemsComposable from "@/Shared/Loaders/items.js";
+import Spinner from "@S/Spinner.vue";
+import EmptyState from "@S/EmptyState.vue";
+import ItemsComposable from "@S/Loaders/items.js";
 
-const { loading, items: loadedItems, loadItem } = ItemsComposable();
+const { loading, items: loadedItems, loadItem, loadRecipe } = ItemsComposable();
 
 const props = defineProps({
     items: {

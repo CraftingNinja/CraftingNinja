@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <SectionHead title="List" :flavor="isCreate ? 'Create' : 'Edit'" />
-
+    <Page title="List" :hero="false" :hero-flavor="isCreate ? 'Create' : 'Edit'">
         <div class="grid grid-cols-2 gap-4">
             <div
                 class="flex flex-col gap-4 pr-8"
@@ -124,20 +122,20 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </Page>
 </template>
 
 <script setup>
+import Page from "@/Layouts/Page.vue";
 import { onMounted, ref } from "vue";
 import { router, useForm } from "@inertiajs/vue3";
-import SectionHead from "@/Shared/SectionHead.vue";
 import TextInput from "@/Components/Jetstream/TextInput.vue";
 import Textarea from "@/Components/Jetstream/Textarea.vue";
 import Checkbox from "@/Components/Jetstream/Checkbox.vue";
 import InputError from "@/Components/Jetstream/InputError.vue";
 import InputLabel from "@/Components/Jetstream/InputLabel.vue";
 import SaveIcon from '~icons/mdi/content-save-plus';
-import Button from "@/Shared/Button.vue";
+import Button from "@S/Button.vue";
 import DeleteIcon from '~icons/mdi/delete';
 import RestoreIcon from '~icons/mdi/restore';
 

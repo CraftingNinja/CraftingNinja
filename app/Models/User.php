@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\Ninja;
+namespace App\Models;
 
+use App\Models\Ninja\Lists;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Jetstream\HasProfilePhoto;
 
 class User extends Authenticatable
 {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Api\JobController;
 use App\Models\Ninja\Lists;
+use App\Providers\GameServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -39,9 +40,9 @@ class ListsController extends Controller
         $list->load(['user', 'items' => fn ($query) => $query->orderBy('id')]);
 
         // If they don't own the list, or the list isn't public, they are unauthorized to view
-        abort_if( $list->user->id !== auth()->user()?->id && ! $list->is_public, 403);
+        abort_if( $list->user?->id !== auth()->user()?->id && ! $list->is_public, 403);
 
-        $jobs = (new JobController)->getCraftingJobs();
+        $jobs = (new JobController())->getCraftingJobs();
 
         return Inertia::render('Lists/Show', compact('list', 'jobs'));
     }
@@ -84,7 +85,7 @@ class ListsController extends Controller
         );
 
         $list->user()->associate(auth()->user()->id);
-        $list->game()->associate(config('game.id'));
+        $list->game()->associate(GameServiceProvider::$game->id);
 
         $list->save();
 

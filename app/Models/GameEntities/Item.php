@@ -2,12 +2,17 @@
 
 namespace App\Models\GameEntities;
 
-use App\Models\Stat;
-use App\Models\StatWeight;
+use App\Casts\IconPathCast;
+use App\Models\Ninja\Stat;
+use App\Models\Ninja\StatWeight;
 
 class Item extends GameEntityAbstract {
 
 	protected $table = 'item';
+
+    protected $casts = [
+        'icon' => IconPathCast::class,
+    ];
 
 	public function fishing()
 	{

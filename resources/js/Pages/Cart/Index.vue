@@ -1,16 +1,14 @@
 <template>
-    <div>
-        <SectionHead title="Your List" />
-
+    <Page title="Your List">
         <div class="flex gap-4">
             <ItemList />
             <Options />
         </div>
-    </div>
+    </Page>
 </template>
 
 <script setup>
-import SectionHead from '@/Shared/SectionHead.vue';
+import Page from "@/Layouts/Page.vue";
 import ItemList from "./Partials/ItemList.vue";
 import Options from "./Partials/Options.vue";
 </script>

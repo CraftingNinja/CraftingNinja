@@ -2,9 +2,16 @@
 
 namespace App\Models\GameEntities;
 
+use App\Casts\IconPathCast;
+
 class Leve extends GameEntityAbstract {
 
 	protected $table = 'leve';
+
+    protected $casts = [
+        'plate' => IconPathCast::class,
+        'frame' => IconPathCast::class,
+    ];
 
 	public function requirements()
 	{

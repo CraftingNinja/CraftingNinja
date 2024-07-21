@@ -4,7 +4,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/Jetstream/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/Components/Jetstream/AuthenticationCardLogo.vue';
 import PrimaryButton from '@/Components/Jetstream/PrimaryButton.vue';
-import SectionHead from "@/Shared/SectionHead.vue";
+import SectionHead from "@S/SectionHead.vue";
 
 const props = defineProps({
     status: String,

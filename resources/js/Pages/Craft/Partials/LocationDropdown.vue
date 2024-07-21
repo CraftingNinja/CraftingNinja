@@ -99,7 +99,7 @@ import {
     TransitionRoot,
 } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
-import ItemsComposable from "@/Shared/Loaders/items.js";
+import ItemsComposable from "@S/Loaders/items.js";
 
 const { items } = ItemsComposable();
 

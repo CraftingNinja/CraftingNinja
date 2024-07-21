@@ -3,7 +3,7 @@
 namespace Database\Factories\Ninja;
 
 use App\Models\Ninja\Lists;
-use App\Models\Ninja\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ListsFactory extends Factory

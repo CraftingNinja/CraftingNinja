@@ -72,15 +72,15 @@
 <script setup>
 import { onMounted } from "vue";
 import { Link } from '@inertiajs/vue3';
-import ItemCard from "@/Shared/ItemCard.vue";
+import ItemCard from "@S/ItemCard.vue";
 import PlusIcon from "~icons/ic/baseline-add-circle";
 import MinusIcon from "~icons/ic/baseline-remove-circle";
 import DeleteIcon from "~icons/mdi/basket-remove-outline";
 import ScrollIcon from "~icons/lucide/scroll-text";
-import Spinner from "@/Shared/Spinner.vue";
-import EmptyState from "@/Shared/EmptyState.vue";
-import ListComposable from "@/Shared/List/composable.js";
-import ItemsComposable from "@/Shared/Loaders/items.js";
+import Spinner from "@S/Spinner.vue";
+import EmptyState from "@S/EmptyState.vue";
+import ListComposable from "@S/List/composable.js";
+import ItemsComposable from "@S/Loaders/items.js";
 
 const { activeList, updateQuantity } = ListComposable();
 const { loading, items, loadItem } = ItemsComposable();

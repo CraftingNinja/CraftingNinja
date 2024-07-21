@@ -14,7 +14,6 @@ class ListItemsFactory extends Factory
     {
         return [
             'list_id' => null,
-            'item_id' => Item::inRandomOrder()->limit(1)->first()->id,
             'quantity' => rand(1, 100),
         ];
     }

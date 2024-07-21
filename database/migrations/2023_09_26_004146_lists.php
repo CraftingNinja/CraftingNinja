@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('lists', function (Blueprint $table) {
             $table->id();
             $table->foreignId('game_id');
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->nullable();
             $table->string('name');
             $table->text('description')->nullable();
             $table->boolean('is_public')->default(false);
@@ -25,10 +25,10 @@ return new class extends Migration
         Schema::create('item_list', function (Blueprint $table) {
             $table->id();
             $table->foreignId('list_id');
-            // Not using foreignId; item and recipe are on a separate database
+            // Not using foreignId; item and recipe are on a separate database.
             $table->unsignedBigInteger('item_id');
             $table->unsignedBigInteger('recipe_id')->nullable();
-            $table->unsignedSmallInteger('quantity');
+            $table->unsignedSmallInteger('quantity')->default(1);
         });
     }
 

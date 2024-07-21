@@ -8,21 +8,22 @@ use App\Http\Controllers\HuntingController;
 use App\Http\Controllers\LevesController;
 use App\Http\Controllers\ListsController;
 use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', fn () => Inertia::render('Welcome'))->name('home');
+Route::get('/', [WelcomeController::class, 'index'])->name('home');
+
+// TODO 1 what is dashboard?
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->name('dashboard');
 
 Route::middleware([
-    'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-
     // You can only create lists if you're logged in
     Route::match(['get', 'post'], 'lists/create-from-cart', [ListsController::class, 'createFromCart'])->name('lists.create-from-cart');
     Route::resource('lists', ListsController::class)->except('create', 'restore');

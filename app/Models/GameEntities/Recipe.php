@@ -23,7 +23,8 @@ class Recipe extends GameEntityAbstract {
 
 	public function notebooks()
 	{
-		return $this->belongsToMany(Notebook::class, 'notebook_recipe', 'recipe_id', 'notebook_id')->withPivot('slot');
+		return $this->belongsToMany(Notebook::class, 'notebook_recipe', 'recipe_id', 'notebook_id')
+            ->withPivot('slot');
 	}
 
 }

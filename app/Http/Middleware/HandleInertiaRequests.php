@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Providers\GameServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Inertia\Middleware;
@@ -13,7 +14,8 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            'game' => config('game'),
+            'rootUrl' => config('app.url'),
+            'game' => GameServiceProvider::$game,
             'currentRoute' => $request->route()->getName(),
             'flash' => [
                 'toasts' => $this->getToasts(),

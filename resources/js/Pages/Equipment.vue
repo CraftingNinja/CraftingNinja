@@ -1,10 +1,9 @@
 <template>
-    <div>
-        <SectionHead title="Equipment" />
-
-    </div>
+    <Page title="Equipment">
+    <!--     TODO 1 Equipment page -->
+    </Page>
 </template>
 
 <script setup>
-import SectionHead from '@/Shared/SectionHead.vue';
+import Page from "@/Layouts/Page.vue";
 </script>

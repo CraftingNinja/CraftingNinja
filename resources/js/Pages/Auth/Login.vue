@@ -7,7 +7,7 @@ import InputLabel from '@/Components/Jetstream/InputLabel.vue';
 import PrimaryButton from '@/Components/Jetstream/PrimaryButton.vue';
 import TextInput from '@/Components/Jetstream/TextInput.vue';
 import SecondaryButton from "@/Components/Jetstream/SecondaryButton.vue";
-import SectionHead from "@/Shared/SectionHead.vue";
+import SectionHead from "@S/SectionHead.vue";
 
 defineProps({
     canResetPassword: Boolean,

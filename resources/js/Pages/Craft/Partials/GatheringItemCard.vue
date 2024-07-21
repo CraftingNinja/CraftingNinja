@@ -18,7 +18,7 @@
 					<div class="space-x-2">
 						<img
 							class="inline w-5 h-5"
-							:src="asset('gathering/fight.png')"
+							:src="gameAsset('gathering/fight.png')"
 						/>
 						<span class="capitalize">{{ item.preference.entity.name }}</span>
 						<span>
@@ -35,7 +35,7 @@
 					<div class="space-x-2">
 						<img
 							class="inline w-5 h-5"
-							:src="asset('gathering/vendor.png')"
+							:src="gameAsset('gathering/vendor.png')"
 						/>
 						<span class="capitalize">{{ item.preference.entity.npcs[0]?.name || item.preference.entity.name }}</span>
 					</div>
@@ -60,7 +60,7 @@
 						<!-- TODO 1 - with a timer? -->
 						<img
 							class="inline w-5 h-5"
-							:src="asset(`gathering/${nodeTypeToAssetName[item.preference.entity.type]}.png`)"
+							:src="gameAsset(`gathering/${nodeTypeToAssetName[item.preference.entity.type]}.png`)"
 						/>
 						<span class="capitalize">{{ item.preference.entity.name }}</span>
 						<span>
@@ -79,7 +79,7 @@
 					<div class="space-x-2">
 						<img
 							class="inline w-5 h-5"
-							:src="asset('gathering/fishing.png')"
+							:src="gameAsset('gathering/fishing.png')"
 						/>
 						<span class="capitalize">{{ item.preference.entity.name }}</span>
 						<span>
@@ -95,7 +95,7 @@
 			</div>
 		</template>
 		<template #default>
-			<div class="flex flex-col h-full justify-between">
+			<div class="flex flex-col space-y-3 h-full justify-between">
 				<button
 					type="button"
 					class="block w-8 h-8 rounded-md border-2 border-accent group"
@@ -120,8 +120,8 @@
 </template>
 
 <script setup>
-import { asset } from "@/Shared/Helpers/assets.js";
-import ItemCard from "@/Shared/ItemCard.vue";
+import { gameAsset } from "@H/assets.js";
+import ItemCard from "@S/ItemCard.vue";
 import CheckMarkIcon from "~icons/game-icons/check-mark";
 import SignIcon from "~icons/game-icons/wooden-sign";
 

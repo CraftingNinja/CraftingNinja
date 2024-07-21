@@ -20,7 +20,7 @@ class ItemResource extends JsonResource
             'tradeable'   => $this->tradeable,
             'ilvl'        => $this->ilvl,
             'rarity'      => $this->rarity,
-            'icon'        => icon($this->icon),
+            'icon'        => $this->icon,
             'category'    => $this->relationLoaded('category') ? new CategoryResource($this->category) : [],
             'recipes'     => $this->relationLoaded('recipes') ? RecipeResource::collection($this->recipes) : [],
             'shops'       => $this->relationLoaded('shops') ? ShopResource::collection($this->shops) : [],

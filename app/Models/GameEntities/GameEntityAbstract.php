@@ -2,6 +2,7 @@
 
 namespace App\Models\GameEntities;
 
+use App\Providers\GameServiceProvider;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 abstract class GameEntityAbstract extends EloquentModel
@@ -12,6 +13,6 @@ abstract class GameEntityAbstract extends EloquentModel
     {
         parent::__construct($attributes);
 
-        $this->setConnection(config('gameInternals.connection'));
+        $this->setConnection(GameServiceProvider::$connection);
     }
 }

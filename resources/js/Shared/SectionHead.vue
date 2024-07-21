@@ -22,10 +22,12 @@
 </template>
 
 <script setup>
+import { defaultString, defaultFalse } from "@H/propDefaults.js";
+
 defineProps({
-    flavor: String,
-    title: String,
-    dot: String,
-    center: Boolean
+    flavor: defaultString,
+    title: defaultString,
+    dot: defaultString,
+    center: defaultFalse
 })
 </script>

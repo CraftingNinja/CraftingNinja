@@ -16,7 +16,6 @@ return [
 
     'assets' => [
         'url' => env('ASSETS_URL', '/'),
-        'cdn' => env('CDN_ASSET_URL', false),
     ],
 
     'postmark' => [

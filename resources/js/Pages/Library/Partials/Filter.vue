@@ -62,7 +62,7 @@
 								>
 									<img
 										class="inline"
-										:src='asset(`classjob/${job.name.toLowerCase()}.png`)'
+										:src='gameAsset(`classjob/${job.name.toLowerCase()}.png`)'
 										:alt='`Icon of ${job.name}`'
 										width="48"
 										height="48"
@@ -195,9 +195,9 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { ChevronDownIcon, FunnelIcon } from '@heroicons/vue/20/solid'
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/solid'
 import TextInput from "@/Components/Jetstream/TextInput.vue";
-import { toggleValue } from "@/Shared/Helpers/array.js";
-import { useStorage } from "@/Shared/Helpers/useStorage.js";
-import { asset } from "@/Shared/Helpers/assets.js";
+import { toggleValue } from "@H/array.js";
+import { useStorage } from "@H/useStorage.js";
+import { gameAsset } from "@H/assets.js";
 import Composable from '../composable.js'
 
 const { search, page } = Composable();

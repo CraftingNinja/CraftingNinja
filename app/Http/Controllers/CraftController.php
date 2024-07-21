@@ -19,7 +19,7 @@ class CraftController extends Controller
         ]);
     }
 
-    public function fromList(Lists $list)/*: Response*/ // TODO 1 re-enable
+    public function fromList(Lists $list): Response
     {
         $list->load('items');
         $jobs = (new JobController)->getCraftingJobs();

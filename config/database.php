@@ -57,7 +57,7 @@ return [
 
         'pgsql' => [
             ...$pgsql,
-            'search_path' => env('DB_SCHEMA', 'crafting'),
+            'search_path' => env('DB_SCHEMA', 'masamune'),
         ],
 
         'ffxiv' => [

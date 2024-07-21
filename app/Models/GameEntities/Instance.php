@@ -2,9 +2,15 @@
 
 namespace App\Models\GameEntities;
 
+use App\Casts\IconPathCast;
+
 class Instance extends GameEntityAbstract {
 
 	protected $table = 'instance';
+
+    protected $casts = [
+        'icon' => IconPathCast::class,
+    ];
 
 	public function items()
 	{

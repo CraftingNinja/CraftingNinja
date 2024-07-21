@@ -1,14 +1,12 @@
 <template>
-    <div>
-        <SectionHead title="Lists" />
-
+    <Page title="Lists">
 		<Filter :filters="filters" />
         <List :lists="lists" />
-    </div>
+    </Page>
 </template>
 
 <script setup>
-import SectionHead from '@/Shared/SectionHead.vue';
+import Page from "@/Layouts/Page.vue";
 import List from "@/Pages/Lists/Partials/IndexListOfLists.vue";
 import Filter from "@/Pages/Lists/Partials/IndexFilter.vue";
 

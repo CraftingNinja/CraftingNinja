@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <SectionHead :title="list.name" />
-
+    <Page :title="list.name">
         <div class="grid grid-cols-6 gap-4">
             <div
                 class="col-span-2 flex flex-col gap-4"
@@ -10,17 +8,24 @@
                     <dl class="flex flex-wrap space-y-4 p-4">
                         <div class="flex w-full flex-none gap-x-4 border-t border-gray-900/5">
                             <dt class="flex-none">
-                                <span class="sr-only">Name</span>
+                                <span class="sr-only">Description</span>
                                 <ScrollIcon class="h-6 w-5 text-primary" aria-hidden="true" />
                             </dt>
-                            <dd class="text-sm font-medium leading-6 text-white">{{ list.description }}</dd>
+                            <dd class="text-sm font-medium leading-6 text-white">
+                                <template v-if="!list.description && !list.user">
+                                    <em>Automatically Generated.</em>
+                                </template>
+                                <template v-else>
+                                    {{ list.description }}
+                                </template>
+                            </dd>
                         </div>
                         <div class="flex w-full flex-none gap-x-4 border-t border-gray-900/5">
                             <dt class="flex-none">
                                 <span class="sr-only">User</span>
                                 <NinjaHeroicStanceIcon class="h-6 w-5 text-primary" aria-hidden="true" />
                             </dt>
-                            <dd class="text-sm font-medium leading-6 text-white">{{ list.user.name }}</dd>
+                            <dd class="text-sm font-medium leading-6 text-white">{{ list.user?.name || 'Craftori Hanzo' }}</dd>
                         </div>
                         <div class="flex w-full flex-none gap-x-4">
                             <dt class="flex-none">
@@ -97,10 +102,11 @@
             </div>
             <ItemList :items="list.items" />
         </div>
-    </div>
+    </Page>
 </template>
 
 <script setup>
+import Page from "@/Layouts/Page.vue";
 import { ref } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
 import { DateTime } from "luxon"
@@ -113,21 +119,19 @@ import AddToListIcon from "~icons/lucide/scroll-text";
 import ScrollIcon from "~icons/lucide/scroll";
 import ShareIcon from '~icons/mdi/share-variant';
 import EditIcon from '~icons/mdi/file-document-edit';
-import Button from "@/Shared/Button.vue";
+import Button from "@S/Button.vue";
 import DeleteIcon from '~icons/mdi/delete';
-import SectionHead from "@/Shared/SectionHead.vue";
+import AddToListComposable from "@S/List/composable.js";
 
-import AddToListComposable from "@/Shared/List/composable.js";
 const { addToList } = AddToListComposable();
 
 const props = defineProps({
     list: Object
 })
 
-const userIsOwner = usePage().props.auth.user?.id === props.list.user.id;
+const userIsOwner = props.list.user && usePage().props.auth.user?.id === props.list.user.id;
 
 const craftList = () => router.visit(route('craft.list', props.list.sqid));
-
 
 const copied = ref(false);
 

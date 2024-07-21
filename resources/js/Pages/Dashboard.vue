@@ -1,9 +1,10 @@
-<script setup>
-import SectionHead from "@/Shared/SectionHead.vue";
-</script>
-
 <template>
-	<SectionHead title="Dashboard" :center="true" />
-
-	...
+    <Page title="Dashboard" :hero-center="true">
+        &hellip;
+    <!--     TODO 1 - What is this page? -->
+    </Page>
 </template>
+
+<script setup>
+import Page from "@/Layouts/Page.vue";
+</script>

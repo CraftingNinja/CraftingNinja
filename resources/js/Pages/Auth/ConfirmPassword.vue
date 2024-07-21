@@ -6,7 +6,7 @@ import InputError from '@/Components/Jetstream/InputError.vue';
 import InputLabel from '@/Components/Jetstream/InputLabel.vue';
 import PrimaryButton from '@/Components/Jetstream/PrimaryButton.vue';
 import TextInput from '@/Components/Jetstream/TextInput.vue';
-import SectionHead from "@/Shared/SectionHead.vue";
+import SectionHead from "@S/SectionHead.vue";
 
 const form = useForm({
     password: '',

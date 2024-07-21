@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Providers\GameServiceProvider;
 use Illuminate\Console\Command;
 
 class AspirDataCommand extends Command
@@ -12,9 +13,9 @@ class AspirDataCommand extends Command
 
     public function handle(): void
     {
-        $slug = strtolower($this->argument('slug'));
+        // {slug} handled by GameServiceProvider and populates the static values
 
-        $class = config("games.$slug.internals.aspir.service");
+        $class = GameServiceProvider::$aspir['service'];
 
         (new $class($this, $this->option('fresh')))->collectData();
     }

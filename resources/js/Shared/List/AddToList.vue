@@ -19,10 +19,10 @@
 
 <script setup>
 import { computed, ref } from "vue";
-import Counter from "@/Shared/Counter.vue";
+import Counter from "@S/Counter.vue";
 import AddToListIcon from "~icons/lucide/scroll-text";
 import Composable from "./composable.js";
-import ListComposable from "@/Shared/List/composable.js";
+import ListComposable from "@S/List/composable.js";
 
 const { addToList } = Composable();
 const { quantityInCart } = ListComposable();

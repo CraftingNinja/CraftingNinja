@@ -1,7 +1,8 @@
 // Cart/List composable
 import { computed } from "vue";
+import { useStorage } from "@H/useStorage.js";
+import { gameAsset } from "@H/assets.js";
 
-import { useStorage } from "@/Shared/Helpers/useStorage.js";
 const activeList = useStorage('activeList', []);
 
 // import AppComposable from "@/Layouts/composable.js";
@@ -17,7 +18,7 @@ const animateAdd = (src, element) => {
     const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
     const { top, left } = element.getBoundingClientRect();
     const imgEl = document.createElement('img');
-    imgEl.src = src;
+    imgEl.src = gameAsset(src);
     imgEl.style.transition = `all ${animationMs}ms`;
     imgEl.style.position = 'absolute';
     imgEl.style.top = `${top + currentScroll - 40}px`;

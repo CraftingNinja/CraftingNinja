@@ -121,18 +121,19 @@ class GarlandTools
 		}
 	}
 
-	private function translateMobID($mobId, $base = false)
+	private function translateMobID($mobId, bool $base = false)
 	{
 		// The mob id can be split between base and name
-		if ($base)
-			return (int) ($mobId / 10000000000);
-		return (int) ($mobId % 10000000000);
+		return (int) $base
+            ? $mobId / 10000000000
+            : $mobId % 10000000000;
 	}
 
 	private function loopEndpoint($endpoint, $callback)
 	{
-		foreach ($this->getFileList($endpoint) as $file)
-			$callback($this->getJSONData($file, $endpoint));
+		foreach ($this->getFileList($endpoint) as $file) {
+            $callback($this->getJSONData($file, $endpoint));
+        }
 	}
 
 	private function getFileList($endpoint, $language = 'en')

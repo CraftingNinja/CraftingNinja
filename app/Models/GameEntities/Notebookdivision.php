@@ -6,7 +6,7 @@ class Notebookdivision extends GameEntityAbstract
 {
 	public $table = 'notebookdivision';
 
-    public function categories()
+    public function category()
     {
     	return $this->belongsTo(NotebookdivisionCategories::class, 'category_id');
     }

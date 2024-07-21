@@ -12,15 +12,15 @@ class LeveResource extends JsonResource
         return [
             'id'       => $this->id,
             'name'     => $this->name,
-            // 'item'     => new ItemResource($this->requirements->first()),
+            'item'     => new ItemResource($this->requirements->first()),
             'recipe'   => new RecipeResource($this->requirements->first()->recipes->first()),
-            'quantity' => $this->requirements[0]->pivot->amount,
+            'quantity' => $this->requirements->first()->pivot->amount,
             'level'    => $this->level,
             'xp'       => $this->xp,
             'gil'      => $this->gil,
             'repeats'  => $this->repeats,
-            'frame'    => icon($this->frame),
-            'plate'    => icon($this->plate),
+            'frame'    => $this->frame,
+            'plate'    => $this->plate,
             'location' => new LocationResource($this->location),
         ];
     }

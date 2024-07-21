@@ -3,13 +3,14 @@
 namespace App\Models\Ninja;
 
 use App\Models\Scopes\GameScope;
-use RossBearman\Sqids\HasSqid;
-use RossBearman\Sqids\SqidBasedRouting;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use RossBearman\Sqids\HasSqid;
+use RossBearman\Sqids\SqidBasedRouting;
 
 // NOTE: `List` is a reserved word in PHP
 class Lists extends Model
@@ -56,14 +57,14 @@ class Lists extends Model
     {
         $query->when($filters['author'] ?? null, function ($query, $author) {
             $query->whereHas('user', function ($query) use ($author) {
-                $author = preg_replace('/\*/', '%', $author);
+                $author = preg_replace('/\*|\s/', '%', $author);
                 $query->whereLike('name', '%' . $author . '%');
             });
         });
 
         $query->when($filters['search'] ?? null, function ($query, $search) {
             $query->where(function($query) use ($search) {
-                $search = preg_replace('/\*/', '%', $search);
+                $search = preg_replace('/\*|\s/', '%', $search);
                 $query->whereLike('name', '%' . $search . '%')
                     ->orWhereLike('description', '%' . $search . '%');
             });
